@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/vejersele/react-inverted-scrollview.svg?branch=master)](https://travis-ci.org/vejersele/react-inverted-scrollview)
+
 # React Inverted Scroll
 
 Easily support inverted scrolling in for example chat apps. Maintains a correct scroll position when new content is added.
