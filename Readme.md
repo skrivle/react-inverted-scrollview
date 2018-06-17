@@ -1,3 +1,82 @@
 # React Inverted Scroll
 
 Easily support inverted scrolling in for example chat apps. Maintains a correct scroll position when new content is added.
+
+## Installation:
+
+```
+npm install react-inverted-scrollview --save
+```
+
+## Example:
+
+```javascript
+import _ from 'lodash';
+import React, { Component } from 'react';
+import ScrollView from 'react-inverted-scrollview';
+
+class MyComponent extends Component {
+    state = {
+        messages: _.range(30).map(index => ({
+            id: index,
+            text: `message-${index}`
+        }))
+    };
+
+    scrollToBottom() {
+        if (!this.scrollView) return;
+        this.scrollView.scrollToBottom();
+    }
+
+    scrollToTop() {
+        if (!this.scrollView) return;
+        this.scrollView.scrollToTop();
+    }
+
+    handleScroll = ({ scrollTop, scrollBottom }) => {
+        console.log('scrollTop', scrollTop);
+        console.log('scrollBottom', scrollBottom);
+    };
+
+    render() {
+        const { messages } = this.state;
+        return (
+            <ScrollView
+                width={400}
+                height={400}
+                ref={ref => (this.scrollView = ref)}
+                onScroll={this.handleScroll}
+            >
+                {messages.map(message => <div key={message.id}>{message.text}</div>)}
+            </ScrollView>
+        );
+    }
+}
+```
+
+## API
+
+### Props
+
+| Prop     | Type                                                       |
+| -------- | ---------------------------------------------------------- |
+| width    | number                                                     |
+| height   | number                                                     |
+| onScroll | (info: { scrollBottom: number, scrollTop: number }) => any |
+| style    | Object {}                                                  |
+
+### Instance methods
+
+```javascript
+instance.scrollToBottom();
+instance.scrollToTop();
+```
+
+## Check out the examples:
+
+```
+git clone https://github.com/vejersele/react-inverted-scrollview.git
+cd react-inverted-scrollview
+npm install
+npm run storybook
+```

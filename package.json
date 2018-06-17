@@ -1,9 +1,19 @@
 {
     "name": "react-inverted-scrollview",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description":
         "Easily support inverted scrolling. Maintains a correct scroll position when new content is added.",
     "main": "lib/index.js",
+    "files": ["lib"],
+    "keywords": [
+        "inverted",
+        "scroll",
+        "ui",
+        "infinite loading",
+        "scrollTop",
+        "scrollBottom",
+        "react"
+    ],
     "scripts": {
         "clean": "rm -rf lib",
         "build:flow": "flow-copy-source src/ lib/ --ignore __test__/**/*",
