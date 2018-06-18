@@ -72,6 +72,9 @@ class MyComponent extends Component {
 ```javascript
 instance.scrollToBottom();
 instance.scrollToTop();
+instance.setScrollBottom(value);
+instance.setScrollTop(value);
+instance.restoreScrollPosition();
 ```
 
 ## Check out the examples:

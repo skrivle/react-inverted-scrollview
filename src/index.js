@@ -3,16 +3,20 @@
 import React, { Component, type Node } from 'react';
 
 export type Props = {
-    onScroll: (info: { scrollBottom: number, scrollTop: number }) => any,
+    onScroll: ({ scrollBottom: number, scrollTop: number }) => any,
     width: number,
     height: number,
     style: {},
-    children: Node
+    children: Node | (({ restoreScrollPosition: () => void }) => Node)
 };
+
+const getHeight = (container: HTMLElement) => container.getBoundingClientRect().height;
 
 export default class ScrollView extends Component<Props> {
     _currentScrollBottom: number;
     _scrollContainer: ?HTMLElement;
+
+    _currentScrollBottom = 0;
 
     static defaultProps = {
         onScroll: () => {},
@@ -21,20 +25,20 @@ export default class ScrollView extends Component<Props> {
         style: {}
     };
 
-    _currentScrollBottom = 0;
-
     componentDidMount() {
         this.scrollToBottom();
     }
 
     componentDidUpdate() {
-        if (!this._scrollContainer) return;
+        this.restoreScrollPosition();
+    }
+
+    restoreScrollPosition() {
         this.setScrollBottom(this._currentScrollBottom);
     }
 
     scrollToTop() {
-        if (!this._scrollContainer) return;
-        this._scrollContainer.scrollTop = 0;
+        this.setScrollTop(0);
     }
 
     scrollToBottom() {
@@ -44,30 +48,39 @@ export default class ScrollView extends Component<Props> {
     setScrollBottom(value: number) {
         const container = this._scrollContainer;
         if (!container) return;
-        const height = this._getScrollContainerHeight();
+        const height = getHeight(container);
         container.scrollTop = container.scrollHeight - height - value;
     }
 
+    setScrollTop(value: number) {
+        if (!this._scrollContainer) return;
+        this._scrollContainer.scrollTop = value;
+    }
+
     _handleScroll = () => {
-        const { onScroll } = this.props;
         const container = this._scrollContainer;
 
         if (!container) return;
 
-        const height = this._getScrollContainerHeight();
+        const height = getHeight(container);
         const scrollTop = container.scrollTop;
-        this._currentScrollBottom = container.scrollHeight - (height + scrollTop);
+        const scrollBottom = container.scrollHeight - height - scrollTop;
 
-        onScroll({ scrollBottom: this._currentScrollBottom, scrollTop });
+        this._currentScrollBottom = scrollBottom;
+
+        this.props.onScroll({ scrollBottom, scrollTop });
     };
 
-    _getScrollContainerHeight() {
-        const container = this._scrollContainer;
-        return container ? container.getBoundingClientRect().height : 0;
+    _renderChildren() {
+        const { children } = this.props;
+        if (typeof children === 'function') {
+            return children({ restoreScrollPosition: () => this.restoreScrollPosition() });
+        }
+        return children;
     }
 
     render() {
-        const { height, width, style } = this.props;
+        const { height, width, style, children } = this.props;
 
         return (
             <div
@@ -89,7 +102,7 @@ export default class ScrollView extends Component<Props> {
                         justifyContent: 'flex-end'
                     }}
                 >
-                    {this.props.children}
+                    {this._renderChildren()}
                 </div>
             </div>
         );
