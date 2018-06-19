@@ -67,6 +67,7 @@ class MyComponent extends Component {
 | onScroll                      | (info: { scrollBottom: number, scrollTop: number }) => any | () => {} |
 | style                         | Object {}                                                  | {}       |
 | restoreScrollPositionOnUpdate | boolean                                                    | true     |
+| children                      | React.Node or ({restoreScrollPosition}) => Node            | Node     |
 
 ### Instance methods
 
