@@ -60,12 +60,13 @@ class MyComponent extends Component {
 
 ### Props
 
-| Prop     | Type                                                       |
-| -------- | ---------------------------------------------------------- |
-| width    | number                                                     |
-| height   | number                                                     |
-| onScroll | (info: { scrollBottom: number, scrollTop: number }) => any |
-| style    | Object {}                                                  |
+| Prop                          | Type                                                       | Default  |
+| ----------------------------- | ---------------------------------------------------------- | -------- |
+| width                         | number                                                     | 100      |
+| height                        | number                                                     | 100      |
+| onScroll                      | (info: { scrollBottom: number, scrollTop: number }) => any | () => {} |
+| style                         | Object {}                                                  | {}       |
+| restoreScrollPositionOnUpdate | boolean                                                    | true     |
 
 ### Instance methods
 

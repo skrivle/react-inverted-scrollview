@@ -2,12 +2,17 @@
 
 import React, { Component, type Node } from 'react';
 
+type RenderFuncArgs = { restoreScrollPosition: () => void };
+type RenderFunc = RenderFuncArgs => Node;
+type OnScrollArgs = { scrollBottom: number, scrollTop: number };
+
 export type Props = {
-    onScroll: ({ scrollBottom: number, scrollTop: number }) => any,
+    onScroll: OnScrollArgs => any,
     width: number,
     height: number,
     style: {},
-    children: Node | (({ restoreScrollPosition: () => void }) => Node)
+    children: Node | RenderFunc,
+    restoreScrollPositionOnUpdate: boolean
 };
 
 const getHeight = (container: HTMLElement) => container.getBoundingClientRect().height;
@@ -22,7 +27,8 @@ export default class ScrollView extends Component<Props> {
         onScroll: () => {},
         width: 100,
         height: 100,
-        style: {}
+        style: {},
+        restoreScrollPositionOnUpdate: true
     };
 
     componentDidMount() {
@@ -30,7 +36,9 @@ export default class ScrollView extends Component<Props> {
     }
 
     componentDidUpdate() {
-        this.restoreScrollPosition();
+        if (this.props.restoreScrollPositionOnUpdate) {
+            this.restoreScrollPosition();
+        }
     }
 
     restoreScrollPosition() {
@@ -71,7 +79,7 @@ export default class ScrollView extends Component<Props> {
         this.props.onScroll({ scrollBottom, scrollTop });
     };
 
-    _renderChildren() {
+    _renderContent() {
         const { children } = this.props;
         if (typeof children === 'function') {
             return children({ restoreScrollPosition: () => this.restoreScrollPosition() });
@@ -102,7 +110,7 @@ export default class ScrollView extends Component<Props> {
                         justifyContent: 'flex-end'
                     }}
                 >
-                    {this._renderChildren()}
+                    {this._renderContent()}
                 </div>
             </div>
         );
