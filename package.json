@@ -1,6 +1,6 @@
 {
     "name": "react-inverted-scrollview",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Easily support inverted scrolling. Maintains a correct scroll position when new content is added.",
     "main": "lib/index.js",
     "files": [
@@ -26,7 +26,7 @@
         "build": "npm run clean && npm run build:babel && npm run build:flow",
         "storybook": "start-storybook -p 6006",
         "test": "flow check && jest src/",
-        "prepublish": "npm test && npm build",
+        "prepublish": "npm test && npm run build",
         "precommit": "pretty-quick --staged"
     },
     "author": "Jelle Versele",
