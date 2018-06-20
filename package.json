@@ -1,6 +1,6 @@
 {
     "name": "react-inverted-scrollview",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Easily support inverted scrolling. Maintains a correct scroll position when new content is added.",
     "main": "lib/index.js",
     "files": [
