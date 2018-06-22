@@ -70,13 +70,15 @@ export default class ScrollView extends Component<Props> {
 
         if (!container) return;
 
-        const height = getHeight(container);
-        const scrollTop = container.scrollTop;
-        const scrollBottom = container.scrollHeight - height - scrollTop;
+        requestAnimationFrame(() => {
+            const height = getHeight(container);
+            const scrollTop = container.scrollTop;
+            const scrollBottom = container.scrollHeight - height - scrollTop;
 
-        this._currentScrollBottom = scrollBottom;
+            this._currentScrollBottom = scrollBottom;
 
-        this.props.onScroll({ scrollBottom, scrollTop });
+            this.props.onScroll({ scrollBottom, scrollTop });
+        });
     };
 
     _renderContent() {
