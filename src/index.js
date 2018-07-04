@@ -11,6 +11,7 @@ export type Props = {
     width: number,
     height: number,
     style: {},
+    className?: string,
     children: Node | RenderFunc,
     restoreScrollPositionOnUpdate: boolean
 };
@@ -90,10 +91,11 @@ export default class ScrollView extends Component<Props> {
     }
 
     render() {
-        const { height, width, style, children } = this.props;
+        const { height, width, style, children, className } = this.props;
 
         return (
             <div
+                className={className}
                 onScroll={this._handleScroll}
                 style={{
                     overscrollBehavior: 'contain contain',
